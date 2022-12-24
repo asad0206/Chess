@@ -6,6 +6,8 @@ typedef unsigned long long U64;
 #define NAME "VICE 1.0"
 #define BRD_SQ_NUM 120
 
+#define MAXGAMEMOVES 2048
+
 // pieces
 enum
 {
@@ -140,6 +142,24 @@ enum
     TRUE
 };
 
+// casteling
+enum
+{
+    WKCA = 1,
+    WQCA = 2,
+    BKCA = 4,
+    BQCA = 8
+};
+
+typedef struct
+{
+    int move;
+    int castlePerm;
+    int enPas;
+    int fiftyMove;
+    U64 posKey;
+} S_UNDO;
+
 typedef struct
 {
     int pieces[BRD_SQ_NUM];
@@ -160,6 +180,8 @@ typedef struct
     int bigPce[3]; // identify the color except pawn
     int majPce[3]; // '' rooks and queens
     int minPce[3]; // '' bishops and knights
+
+    S_UNDO history[MAXGAMEMOVES]; // array to make undo moves
 } S_BOARD;
 
 #endif
