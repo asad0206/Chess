@@ -3,6 +3,7 @@
 
 int ParseFen(char *fen, S_BOARD *pos)
 {
+
     ASSERT(fen != NULL);
     ASSERT(pos != NULL);
 
@@ -21,7 +22,6 @@ int ParseFen(char *fen, S_BOARD *pos)
         count = 1;
         switch (*fen)
         {
-        // setting piece value
         case 'p':
             piece = bP;
             break;
@@ -95,6 +95,7 @@ int ParseFen(char *fen, S_BOARD *pos)
         }
         fen++;
     }
+
     ASSERT(*fen == 'w' || *fen == 'b');
 
     pos->side = (*fen == 'w') ? WHITE : BLACK;
@@ -106,22 +107,20 @@ int ParseFen(char *fen, S_BOARD *pos)
         {
             break;
         }
-
-        switch ((*fen))
+        switch (*fen)
         {
         case 'K':
-            pos->castlePerm != WKCA;
+            pos->castlePerm |= WKCA;
             break;
         case 'Q':
-            pos->castlePerm != WQCA;
+            pos->castlePerm |= WQCA;
             break;
         case 'k':
-            pos->castlePerm != BKCA;
+            pos->castlePerm |= BKCA;
             break;
         case 'q':
-            pos->castlePerm != BQCA;
+            pos->castlePerm |= BQCA;
             break;
-
         default:
             break;
         }
@@ -205,4 +204,21 @@ void PrintBoard(const S_BOARD *pos)
         }
         printf("\n");
     }
+
+    printf("\n   ");
+    for (file = FILE_A; file <= FILE_H; file++)
+    {
+        printf("%3c", 'a' + file);
+    }
+
+    printf("\n");
+    printf("side:%c\n", SideChar[pos->side]);
+    printf("enPas:%d\n", pos->enPas);
+    printf("castle:%c%c%c%c\n",
+           pos->castlePerm & WKCA ? 'K' : '-',
+           pos->castlePerm & WQCA ? 'Q' : '-',
+           pos->castlePerm & BKCA ? 'k' : '-',
+           pos->castlePerm & BQCA ? 'q' : '-');
+
+    printf("PosKey:%llX\n", pos->posKey);
 }

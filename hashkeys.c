@@ -1,9 +1,10 @@
 #include "defs.h"
+#include "stdio.h"
 
 U64 GeneratePosKey(const S_BOARD *pos)
 {
     int sq = 0;
-    U64 finalKey = 0; // final key which will be returned
+    U64 finalKey = 0;
     int piece = EMPTY;
 
     // pieces
@@ -12,7 +13,7 @@ U64 GeneratePosKey(const S_BOARD *pos)
         piece = pos->pieces[sq];
         if (piece != NO_SQ && piece != EMPTY)
         {
-            ASSERT(piece >= wP && piece < bK);
+            ASSERT((piece >= wP) && (piece <= bK));
             finalKey ^= PieceKeys[piece][sq];
         }
     }
@@ -29,6 +30,7 @@ U64 GeneratePosKey(const S_BOARD *pos)
     }
 
     ASSERT(pos->castlePerm >= 0 && pos->castlePerm <= 15);
+
     finalKey ^= CastleKeys[pos->castlePerm];
 
     return finalKey;
