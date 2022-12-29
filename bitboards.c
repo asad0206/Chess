@@ -24,7 +24,8 @@ int CountBits(U64 b)
 
 void PrintBitBoard(U64 bb)
 {
-    U64 shiftMe = 1ULL; // for shifting
+    printf("Check : %lld\n", bb);
+    U64 shiftMe = 1ULL;
 
     int rank = 0;
     int file = 0;
@@ -36,15 +37,15 @@ void PrintBitBoard(U64 bb)
     {
         for (file = FILE_A; file <= FILE_H; ++file)
         {
-            sq = FR2SQ(file, rank); // 120 base index
-            sq64 = SQ64(sq);        // 64 base index
+            sq = FR2SQ(file, rank); // 120 based
+            sq64 = SQ64(sq);        // 64 based
 
-            if ((shiftMe << sq64) & bb) // if its non zero
+            if ((shiftMe << sq64) & bb)
                 printf("X");
             else
                 printf("-");
         }
         printf("\n");
     }
-    printf("\n");
+    printf("\n\n");
 }
